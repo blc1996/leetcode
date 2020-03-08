@@ -39,3 +39,24 @@ public:
         return count;
     }
 };
+
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        if(s.size() == 0){
+            return 0;
+        }
+        vector<int> dp(s.size(), 0);
+        for(int i = 1; i < s.size(); i++){
+            if( dp[i - 1] < i && (s[i] == ')' && s[i - dp[i - 1] - 1] == '(') ){
+                dp[i] = dp[i - 1] + 2;
+            }
+            int index = i;
+            while(index >= 0 && dp[index]){
+                index -= dp[index];
+            }
+            dp[i] = i - index;
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};

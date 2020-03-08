@@ -48,6 +48,42 @@ public:
     }
 };
 
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if(!root) return vector<vector<int>>();
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+        bool directionFlag = true;
+        vector<vector<int>> res;
+        vector<int> tempLevel;
+        while(!q.empty()){
+            TreeNode* curNode = q.top();
+            q.pop();
+            if(!curNode){
+                res.push_back(tempLevel);
+                tempLevel = !tempLevel;
+                if(q.empty()){
+                    break;
+                }else{
+                    tempLevel.clear();
+                    q.push(NULL);
+                }
+            }
+            if(directionFlag){
+                tempLevel.push_back(curNode->val);
+            }else{
+                tempLevel.insert(tempLevel.begin(), curNode->val);
+            }
+            
+            if(curNode->right) q.push_back(curNode->right);
+            if(curNode->left) q.push_back(curNode->left);
+        }
+        return res;
+    }
+};
+
 //iterative!
 class Solution {
 public:

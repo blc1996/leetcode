@@ -6,9 +6,18 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size() == 0) return NULL;
         return partition(lists, 0, lists.size() - 1);
     }
 
@@ -17,20 +26,14 @@ public:
         if(left == right)
             return lists[left];
         int mid = left + (right - left)/2;
-        return merge(partition(left, mid), partition(lists, mid + 1, right));
+        return merge(partition(lists, left, mid), partition(lists, mid + 1, right));
     }
 
     ListNode* merge(ListNode* node1, ListNode* node2){
         ListNode initial(0);
         ListNode* cur = &initial;
-        while(node1 || node2){
-            if(!node1){
-                cur->next = node2;
-                node2 = node2->next;
-            }else if(!node2){
-                cur->next = node1;
-                node1 = node1->next;
-            }else if(node1->val > node2->val){
+        while(node1 && node2){
+            if(node1->val > node2->val){
                 cur->next = node2;
                 node2 = node2->next;
             }else{
@@ -39,6 +42,9 @@ public:
             }
             cur = cur->next;
         }
+        if(node1) cur->next = node1;
+        if(node2) cur->next = node2;
         return initial.next;
     }
 };
+

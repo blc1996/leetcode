@@ -42,3 +42,37 @@ public:
         return output;
     }
 };
+
+
+class Solution {
+public:
+    void backtrack(const string& str, int index, int level, string curStr, vector<string>& res){
+        if(level == 0){
+            if(index == str.size()){
+                curStr.pop_back();
+                res.push_back(curStr);
+            }
+            return;
+        }
+        if(str[index] == '0'){
+            curStr.append("0.");
+            backtrack(str, index + 1, level - 1, curStr, res);
+        }else{
+            for(int i = 1; i <= 3 && index + i <= str.size(); i++){
+                string tempStr(str.begin() + index, str.begin() + index + i);
+                if(stoi(tempStr) < 256){
+                    auto tempCurStr = curStr;
+                    tempCurStr.append(tempStr);
+                    tempCurStr.push_back('.');
+                    backtrack(str, index + i, level - 1, tempCurStr, res);
+                }
+            }
+        }
+    }
+    
+    vector<string> restoreIpAddresses(string s) {
+        vector<string> res;
+        backtrack(s, 0, 4, "", res);
+        return res;
+    }
+};

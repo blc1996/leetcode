@@ -34,3 +34,29 @@ public:
         return initial->next;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head == NULL) return NULL;
+        ListNode *initial = new ListNode(0);
+        initial->next = head;
+        ListNode *cur = initial, *nxt, *prev = initial;
+        int nodeNum = 0;
+        while(cur = cur->next) nodeNum++;
+        while(nodeNum >= k){
+            cur = prev->next;
+            nxt = cur->next;
+            for(int i = 1; i < k; i++){
+                cur->next = nxt->next;
+                nxt->next = prev->next;
+                prev->next = nxt;
+                nxt = cur->next;
+            }
+            prev = cur;
+            nodeNum -= k;
+        }
+        return initial->next;
+    }
+};

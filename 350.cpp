@@ -15,3 +15,6 @@ public:
         return res;
     }
 };
+
+
+let e = if 5 <  b ((fun x -> (x, y)) y) then "hi" else "ho";;

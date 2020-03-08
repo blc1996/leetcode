@@ -56,7 +56,7 @@ public:
                 temp1 = &nums2;
                 temp2 = &nums1;
                 len1 = nums2.size();
-                leb2 = nums1.size();
+                len2 = nums1.size();
             }
             //perform BS on the shorter array
             int left = 0, right = len - 1;
@@ -70,6 +70,42 @@ public:
                     }
                 }
             }
+        }
+    }
+};
+
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int tatalLength = nums1.size() + nums2.size();
+        if(tatalLength % 2){
+            return (findKthSortedArrays(nums1, 0, nums2, 0, tatalLength/2) + findKthSortedArrays(nums1, 0, nums2, 0, tatalLength/2 - 1))/2;
+        }else{
+            return findKthSortedArrays(nums1, 0, nums2, 0, tatalLength/2);
+        }
+    }
+
+    int findKthSortedArrays(vector<int>& nums1, int index1, vector<int>& nums2, int index2, int k){
+        int length1 = nums1.size() - index1, length2 = nums2.size() - index2;
+        if(length1 > length2){
+            return findKthSortedArrays(nums2, index2, nums1, index1, k);
+        }else if(k == 0){
+            return min(nums1[index1], nums2[index2]);
+        }else if(length1 <= 0){
+            return nums2[index2 + k];
+        }
+
+        int tempIdx = min(length1, k / 2);
+        int mid1 = index1 + tempIdx;
+        int mid2 = index2 + k - tempIdx;
+
+        if(nums1[mid1] == nums2[mid2]){
+            return nums1[mid1];
+        }else if(nums1[mid1] > nums2[mid2]){
+            return findKthSortedArrays(nums1, index1, nums2, index2 + mid2, k - mid2);
+        }else{
+            return findKthSortedArrays(nums1, index1 + mid1, nums2, index2, k - mid1);
         }
     }
 };

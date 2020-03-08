@@ -25,3 +25,14 @@ public:
         dfs(nums, index + 3, start, newsum, maxVal, stepMax);
     }
 };
+
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size() == 1)
+            return nums[0];
+        
+        return maxVal;
+    }
+};

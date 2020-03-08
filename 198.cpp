@@ -12,9 +12,10 @@ public:
         dp[1] = nums[1];
         dp[2] = nums[0] + nums[2];
         for(int i = 3; i < nums.size(); i++){
-            dp[i] = nums[i] + max(nums[i-2], nums[i-3]);
+            dp[i] = nums[i] + max(dp[i-2], dp[i-3]);
         }
-        return dp[dp.size() -1];
+        return max(dp[dp.size() -1], dp[dp.size() -2]);
     }
 };
+
 
